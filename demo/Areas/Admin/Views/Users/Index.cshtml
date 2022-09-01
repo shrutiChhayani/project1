@@ -1,0 +1,290 @@
+﻿@model demo.Areas.Admin.Models.datatable.UsersModel
+
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+<html>
+<head>
+    <meta charset="UTF-8" />
+
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />*@
+    @*<link href="select2.min.css" rel="stylesheet" />*@
+    @*<link href="~/multiselect/example-styles.css" rel="stylesheet" />*@
+
+    <style>
+        /*.select2 {
+             position: absolute;
+             z-index: 10000000;
+         }
+        */
+        /* .modal-open .select2-dropdown {
+             z-index: 10060;
+         }
+
+         .modal-open .select2-close-mask {
+             z-index: 10055;
+         }*/
+
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 30%;
+            height: auto;
+            align-content: center;
+            border: 1px;
+            border-collapse: collapse;
+            border-bottom: solid 1px black;
+            border-right: solid 1px black;
+            padding: 5px;
+        }
+
+            table.center {
+                margin-left: auto;
+                margin-right: auto;
+                border-top: solid 1px black;
+                border-left: solid 1px black;
+            }
+    </style>
+</head>
+<body>
+
+
+    <div class="container">
+
+        <table class="center  table-bordered table-hover table-striped table-dark" id="table">
+            <thead>
+                <tr>
+
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>CategoryName</th>
+                    <th>Action</th>
+
+                    <th>
+                        <button type="button" title="AddUser" style="cursor: pointer;" onclick="window.location= '@Url.Action( "AddUser", "Users")'"><i class="fa fa-clock-o"></i></button>
+                    </th>
+
+                </tr>
+
+            </thead>
+            <tbody id="tbodylist">
+            </tbody>
+
+        </table>
+    </div>
+    @*Model code*@
+
+    <!--<div class="modal fade" id="exampleModal">
+        <div class="modal-dialog">
+
+            <div class="modal-content" style="height:auto">
+                <form>
+
+                    <div class="modal-header">
+                        <h4 class="model-title" id="editdatalabel">editdata</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>x</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <div class="form-group">
+
+                            <div>
+                                <label asp-for="Name">Name</label>
+                                <input asp-for="Name" class="form-control" id="txtname">
+                                <label asp-for="Phone">Phone</label>
+                                <input asp-for="Phone" class="form-control" id="txtPhone">
+                                <label asp-for="Email">Email</label>
+                                <input asp-for="Email" class="form-control" id="txtEmail">
+
+                            </div>
+                            <br />
+
+                            <label asp-for="drp">Select Category</label>-->
+
+                            @*<div class="input-icon right">
+
+                                @Html.DropDownListFor(m => m.Categoryid, (List<SelectListItem>)Model.loCList, new { @class = "form-control", @multiple = "multiple" })
+
+                            </div>*@
+                        <!--</div>
+                        <br />
+                        <div class="modal-footer">
+                            <button type="button" class=" btn btn-primary" data-dismiss="modal">close</button>
+                            <button type="button" class="btnupdate" id="btnup" data-dismiss="modal">Update</button>
+
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>-->
+
+</body>
+</html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+       //debugger
+        getTableRecords();
+        
+    });
+
+    $("#btnfilltable").on("click", function () {
+        getTableRecords();
+
+    });
+
+   
+
+    function getTableRecords() {
+      // debugger
+
+        $.ajax({
+            url: "/Users/GetUsers",
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                console.log(data);
+                $('#tbodylist').html(data);
+
+            },
+            error: function (er) {
+                debugger
+                console.log(er);
+            },
+        })
+    };
+
+    //function editUsers(ID) {
+
+    //    debugger
+
+    //    $.ajax({
+    //        url: "/Users/EditUsers",
+    //        type: "GET",
+
+    //        data: {
+    //            UserId: ID,
+
+    //        },
+    //        contentType: "application/json",
+    //        success: function (data) {
+    //            debugger
+
+    //            //$("#exampleModal").modal("show");
+    //            $('#Name').val(data.Name);
+    //            $('#Phone').val(data.Phone);
+    //            $('#Email').val(data.Email);
+    //            $('#Password').val(data.Password); 
+    //            $('#btnup').val(ID);
+
+
+    //        }, //End of AJAX Success function
+
+    //        failure: function (data) {
+    //            alert(data.responseText);
+    //        }, //End of AJAX failure function
+    //        error: function (data) {
+    //            alert(data.responseText);
+    //        } //End of AJAX error function
+
+    //    });
+    //};
+
+
+
+
+
+    //$(document).on('click', '.btnupdate', function () {
+    //    debugger
+
+
+    //    var did = $("#btnup").val();
+    //    var name = $("#txtname").val();
+    //    var Phone = $("#txtPhone").val();
+    //    var email = $("#txtEmail").val();
+    //    $.ajax({
+    //        url: "/Users/EditUsers",
+    //        type: 'post',
+    //        datatype: 'application/json',
+    //        data: {
+    //            UserId: did,
+    //            Name: name,
+    //            Phone: Phone,
+    //            Email: email,
+
+    //        },
+
+    //        success: function (data) {
+    //            debugger;
+
+    //            console.log(data)
+    //            $("#exampleModal").modal("hide");
+    //        },
+
+
+
+    //    });
+
+
+    //    window.location.reload();
+
+
+    //});
+
+    function deleteUsers(UserId) {
+
+        debugger
+
+        $.ajax({
+
+            url: "/Users/deleteuser",
+            type: "GET",
+            contentType: 'application/json',
+            data: {
+                CId: UserId,
+
+            },
+
+            success: function (data) {
+                //debugger
+                //if (response == true) {
+                //    alert("You will now be redirected.");
+                //    window.location = "Category/Index.cshtml";
+                //}
+                //if (isDeleted == true) {
+                //   table(Categoryid);
+                //}
+            },
+
+            failure: function (data) {
+                alert(data.responseText);
+            }, //End of AJAX failure function
+            error: function (data) {
+                alert(data.responseText);
+            } //End of AJAX error function
+
+        });
+        window.location.reload();
+    };
+
+
+
+</script>
+
+
+

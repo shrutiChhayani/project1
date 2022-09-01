@@ -1,0 +1,37 @@
+﻿@model demo.Areas.Admin.Models.CategoryModel
+
+@{
+    ViewBag.Title = "EditEmployee";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>EditEmployee</h2>
+
+@*Model code*@
+<div class="modal fade" id="exampleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="model-title" id="editdatalabel">editdata</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>x</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="EditEmployee">
+                    <div class="form-group">
+                        <label asp-for="Name">Name</label>
+                        <input asp-for="Name" class="form-control" />
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-primary" data-dismiss="modal">close</button>
+                <button type="button" class=" btn btn-primary" data-dismiss="modal">Update</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+

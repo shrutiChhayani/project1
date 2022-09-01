@@ -1,0 +1,274 @@
+﻿@model demo.Areas.Admin.Models.datatable.subcategoryModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 30%;
+            height: auto;
+            align-content: center;
+            border: 1px;
+            border-collapse: collapse;
+            border-bottom: solid 1px black;
+            border-right: solid 1px black;
+            padding: 5px;
+        }
+
+            table.center {
+                margin-left: auto;
+                margin-right: auto;
+                border-top: solid 1px black;
+                border-left: solid 1px black;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <table class="center  table-bordered table-hover table-striped table-dark" id="table">
+            <thead>
+                <tr>
+
+                    <th>SubCategoryName</th>
+                    <th>CategoryName</th>
+                    <th>Action</th>
+                    <th>
+                        <button type="submit" title=" AddCategory" style="cursor: pointer;" onclick="window.location= '@Url.Action( "AddSubCategory", "SubCategory")'"><i class="fa fa-clock-o"></i></button>
+                    </th>
+                </tr>
+
+            </thead>
+            <tbody id="tbodylist">
+            </tbody>
+
+        </table>
+    </div>
+    @*Model code*@
+    <div class="modal fade" id="exampleModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+
+                    <div class="modal-header">
+                        <h4 class="model-title" id="editdatalabel">editdata</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>x</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <div>
+                            <label asp-for="Name">Name</label>
+                            <input asp-for="Name" class="form-control" id="txtname">
+                        </div>
+                        <br />
+                        <div class="input-icon right">
+                            @if (Model != null)
+                            {
+                                @Html.DropDownListFor(m => m.Categoryid, (List<SelectListItem>)Model.loCList, new { @class = "form-control", @id = "drpselect" })
+                            }
+                            </div>
+                      
+                        <div class="modal-footer">
+                            <button type="button" class=" btn btn-primary" data-dismiss="modal">close</button>
+                            <button type="button" class="btnupdate" id="btnup" data-dismiss="modal">Update</button>
+
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        getTableRecords();
+    });
+
+
+    $("#btnfilltable").on("click", function () {
+        getTableRecords();
+
+    });
+
+
+  
+
+
+    function getTableRecords() {
+        // debugger
+        $.ajax({
+            url: "/SubCategory/GetSubCategory",
+            type: "GET",
+            //dataType: "html",
+            contentType:'application/json',
+            success: function (data) {
+                console.log(data);
+
+                $('#tbodylist').html(data);
+
+
+            },
+            error: function (er) {
+                debugger
+                console.log(er);
+            },
+
+
+
+        })
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function editsubcategory(ID) {
+
+         debugger
+
+        $.ajax({
+
+            url: "/SubCategory/EditsubCategory",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+           //dataType: "html",
+
+            data: {
+                SubCategoryid: ID,
+            
+            },
+
+            success: function (data) {
+                debugger
+                $("#exampleModal").modal("show");
+                //document.getElementById("txtname").innerHTML = data[1];
+               
+                
+                
+               $('#txtname').val(data[1]);
+               $('#drpselect').val(data)
+
+                $('#btnup').val(ID);
+
+
+            }, //End of AJAX Success function
+
+            failure: function (data) {
+                alert(data.responseText);
+            }, //End of AJAX failure function
+            error: function (data) {
+                alert(data.responseText);
+            } //End of AJAX error function
+        });
+    };
+
+
+
+
+
+    $(document).on('click', '.btnupdate', function () {
+         debugger
+
+
+        var did = $("#btnup").val();
+
+        var name = $("#txtname").val();
+
+        var drp = $("#drpselect").val();
+
+        $.ajax({
+            type: 'post',
+            url: "/SubCategory/EditsubCategory",
+            datatype: 'html',
+            data: {
+                SubCategoryid: did,
+                SubCategoryName: name,
+                CategoryName:drp
+
+            },
+
+            success: function (data) {
+                //  debugger;
+
+                console.log(data)
+                $("#exampleModal").modal("hide");
+            },
+
+
+
+        });
+
+
+        window.location.reload();
+
+
+    });
+
+    function deletesubcategory(subCategoryid) {
+
+        debugger
+
+        $.ajax({
+
+            url: "/SubCategory/deletesubcategory",
+            type: "GET",
+            dataType: "html",
+            data: {
+                CId: subCategoryid,
+
+            },
+
+            success: function (data) {
+                debugger
+                alert("Are you Want to Delete")
+            },
+
+            failure: function (data) {
+                alert(data.responseText);
+            }, //End of AJAX failure function
+            error: function (data) {
+                alert(data.responseText);
+            } //End of AJAX error function
+
+        });
+        window.location.reload();
+    };
+
+
+
+</script>
+
+

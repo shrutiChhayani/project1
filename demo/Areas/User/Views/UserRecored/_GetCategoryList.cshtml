@@ -1,0 +1,16 @@
+﻿@model IEnumerable<demo.Areas.User.Models.getusersubcategoryModel>
+
+
+@foreach (var item in Model)
+{
+
+    <tr>
+        @Html.HiddenFor(modelItem => item.UserId)
+
+        <td>
+
+            @Html.DisplayFor(modelItem => item.CategoryName)
+        </td>
+
+    </tr>
+}

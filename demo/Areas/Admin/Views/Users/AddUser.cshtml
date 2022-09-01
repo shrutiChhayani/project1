@@ -1,0 +1,102 @@
+﻿@model demo.Areas.Admin.Models.datatable.UsersModel
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+
+        <br />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="control-label col-md-2">UserName</label>
+
+
+        <div class="col-md-10">
+            <input type="text" id="txtname" name="name" class="form-control" placeholder="Name" />
+        </div>
+        <br />
+        <label class="control-label col-md-2">Phone Number</label>
+        <div class="col-md-10">
+            <input type="text" id="txtphone" name="Phone" class="form-control" placeholder="Phone" />
+        </div>
+        <br />
+        <label class="control-label col-md-2">email</label>
+        <div class="col-md-10">
+            <input type="text" id="txtemail" name="email" class="form-control" placeholder="Email" />
+        </div>
+        <br />
+        <label class="control-label col-md-2">Password</label>
+        <div class="col-md-10">
+            <input type="password" id="txtpassword" name="Password" class="form-control" placeholder="Password" />
+        </div>
+        <br />
+
+        <div class="col-md-8">
+            <div class="input-icon right">
+                @Html.DropDownListFor(m => m.Categoryid, (List<SelectListItem>)Model.loBestTimeVisit, new { @class = "form-control", @multiple = "multiple" })
+            </div>
+        </div>
+
+    </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Create" onclick="insertrecord()" style="cursor:pointer" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Users", "Index")
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Categoryid').select2({
+        });
+    });
+    function insertrecord() {
+        debugger
+
+        var name = $("#txtname").val();
+        var Phone = $("#txtphone").val();
+        var email = $("#txtemail").val();
+        var password = $("#txtpassword").val();
+        var Categoryid = $("#Categoryid").val();
+        var payload = {
+            Name: name,
+            Phone: Phone,
+            Email: email,
+            Password: password,
+            Categoryid: Categoryid
+        };
+        console.log(JSON.stringify(payload));
+        $.ajax({
+            type: 'POST',
+            url: '/Users/AddUser',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            cache: false,
+            async: false,
+            success: function (data) {
+                debugger;
+                alert("data inserted successfully");
+           window.location.href = "@Url.Action("Index", "Users")";
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+
+    }
+
+</script>

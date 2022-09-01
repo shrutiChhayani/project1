@@ -1,0 +1,28 @@
+﻿@model IEnumerable<demo.Areas.Admin.Models.datatable.subcategoryModel>
+
+
+
+@foreach (var item in Model) {
+<tr>    
+
+    <td>
+        @Html.DisplayFor(modelItem => item.SubCategoryName)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.CategoryName)
+    </td>
+    <td>
+        <div id="editBtn" onclick="editsubcategory(@item.SubCategoryid)">
+
+
+            <a style="cursor: pointer;" title="Edit Details" @*data-toggle="modal" data-target="#exampleModal"*@><i class="fa fa-edit"></i></a>
+        </div>
+        <div onclick="deletesubcategory(@item.SubCategoryid)">
+            <a style="cursor: pointer;" title="Delete Patient" return false;"> <i class="fa fa-trash-o"></i></a>
+
+        </div>
+    </td>
+</tr>
+}
+

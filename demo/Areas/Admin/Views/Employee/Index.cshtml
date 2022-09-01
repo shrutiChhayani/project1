@@ -1,0 +1,75 @@
+﻿@model demo.Areas.Admin.Models.EmployeeModel
+
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutLogin.cshtml";
+    ViewBag.Title = "Login";
+}
+
+<section>
+    <div class="main">
+
+        <div class="form1">
+            <!-- BEGIN LOGIN FORM -->
+            @using (Html.BeginForm("Login", "Employee", new { model = this.Model, returnUrl = Request.QueryString["returnUrl"] }, FormMethod.Post, new { @Id = "frmLogin" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <h3 class="sign" align="center">Sign In</h3>
+                if (ViewData["MessageText"] != null)
+                {
+                    <div class="alert alert-success  fade in">
+
+                        <span>@ViewData["MessageText"] </span>
+                    </div>
+                }
+
+                if (ViewData["ErrorText"] != null)
+                {
+                    <div class="alert alert-danger  fade in">
+
+                        <span>@ViewData["ErrorText"]</span>
+
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.Label("UserName", new { @class = "control-label visible-ie8 visible-ie9" })
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        @Html.TextBoxFor(m => m.Name, null, new { @class = "un", @placeholder = "Username", @maxlength = "51", @autofocus = "autofocus", @tabindex = "1", @autocomplete = "off", align = "center" })
+                    </div>
+                    <div class="error">
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:red" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Password", new { @class = "control-label visible-ie8 visible-ie9" })
+                    <div class="input-icon">
+                        <i class="fa fa-lock"></i>
+                        @Html.TextBoxFor(m => m.Password, null, new { @class = " pass", @placeholder = "Password", @type = "password", @maxlength = "51", @tabindex = "2", @autocomplete = "off", align = "center" })
+
+                    </div>
+                    <div class="error">
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.HiddenFor(m => m.IsAdmin)
+                </div>
+                <div class="form-actions">
+
+                    <button type="submit" title="Login" tabindex="4" class="submit" align="center">
+                        Login <i class="m-icon-swapright m-icon-white"></i>
+                    </button>
+                </div>
+
+            }
+        </div>
+    </div>
+</section>
+
+
+   
+
+

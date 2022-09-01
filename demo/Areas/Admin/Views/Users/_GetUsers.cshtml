@@ -1,0 +1,47 @@
+﻿@model IEnumerable<demo.Areas.Admin.Models.datatable.UsersModel>
+
+@foreach (var item in Model)
+{
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+
+        </td>
+        
+            @Html.HiddenFor(modelItem => item.CategoryIds)
+
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryName)
+
+        </td>
+        <td>
+            @Html.ActionLink("Users",
+                 "EditUsers",
+                 new { UserId = item.UserId }
+                )
+
+            @*<div class="btnupdate" onclick="btnupdate(@item.UserId)"></div>*@
+
+            <a style="cursor: pointer;" title="Edit Details"></a>
+            @*data-toggle="modal" data-target="#exampleModal"*@
+            <!--<i class="fa fa-edit"></i></a>
+        </div>-->
+            <div onclick="deleteUsers(@item.UserId)">
+                <a style="cursor: pointer;" title="Delete Patient" return false;"> <i class="fa fa-trash-o"></i></a>
+
+
+            </div>
+
+        </td>
+
+    </tr>
+}
+

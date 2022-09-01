@@ -1,0 +1,101 @@
+﻿@model demo.Areas.User.Models.selectuserModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 30%;
+            height: auto;
+            align-content: center;
+            border: 1px;
+            border-collapse: collapse;
+            border-bottom: solid 1px black;
+            border-right: solid 1px black;
+            padding: 5px;
+        }
+
+            table.center {
+                margin-left: auto;
+                margin-right: auto;
+                border-top: solid 1px black;
+                border-left: solid 1px black;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+
+        <table class="center  table-bordered table-hover table-striped table-dark" id="table">
+            <thead>
+                <tr>
+
+                    <th>SubCategoryName</th>
+
+                </tr>
+
+            </thead>
+            <tbody id="tbodylist">
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+</body>
+</html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        getTableRecords();
+    });
+
+
+    $("#btnfilltable").on("click", function () {
+        getTableRecords();
+
+    });
+
+
+
+
+
+    function getTableRecords() {
+        debugger
+        $.ajax({
+            url:"/SubCategoryList/GetSubCategory",
+            type: "GET",
+            dataType: "html",
+           
+            success: function (data) {
+                console.log(data);
+
+                $('#tbodylist').html(data);
+
+
+            },
+            error: function (er) {
+                debugger
+                console.log(er);
+            },
+
+
+
+        })
+    };
+</script>
+
+
